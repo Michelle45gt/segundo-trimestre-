@@ -1,0 +1,21 @@
+import machine
+import time
+import dht
+import ssd1306
+
+# Configuración de la pantalla OLED
+i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4), freq=400000)
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+
+# Configuración del sensor DHT11
+sensor = dht.DHT11(machine.Pin(14))  # Utiliza el pin adecuado para tu conexión
+
+def leer_temperatura():
+    try:
+        # Lee el sensor DHT11
+        sensor.measure()
+        temp = sensor.temperature()  # Obtiene la temperatura en grados Celsius
+        return temp
+    except OSError as e:
+        print("Error al leer el sensor.")
+        return None
